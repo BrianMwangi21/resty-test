@@ -3,7 +3,6 @@ package main
 import (
 	"net/http"
 	"time"
-
 	"github.com/go-resty/resty/v2"
 	"github.com/gofiber/fiber/v2"
 	"github.com/tidwall/gjson"
@@ -16,19 +15,12 @@ type BaseResponse struct {
 }
 
 func PerformAPICall(c *fiber.Ctx) error {
-	// Create a Resty Client
 	client := resty.New()
-	// Enabling debug when needed
 	client.SetDebug(true)
-	// Sets `Content-Length` header automatically
 	client.SetContentLength(true)
-	// Set the timeout for the client to 60 seconds
 	client.SetTimeout(time.Duration(time.Duration(60) * time.Second))
 	
-	var response *resty.Response
-	var err error
-
-	response, err = client.R().
+	response, err := client.R().
 		Get("https://random-data-api.com/api/v2/users")
 
 	if err != nil {
@@ -53,7 +45,6 @@ func PerformAPICall(c *fiber.Ctx) error {
 		},
 	)
 }
-
 
 func main() {
     app := fiber.New()
